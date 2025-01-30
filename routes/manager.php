@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Member\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Member\LoginController;
+use App\Http\Controllers\Manager\LoginController;
+use App\Http\Controllers\Manager\HomeController;
 
-include __DIR__ . '/manager.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -20,24 +19,25 @@ include __DIR__ . '/manager.php';
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [LoginController::class, 'index'])->name('index');
 
-Route::prefix('/member')
+//manager認証
+Route::prefix('/manager')
 ->controller(LoginController::class)
-->name('members.')
+->name('manager.')
 ->group(function() {
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
+    Route::get('/', 'index')->name('index');
     Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
 });
 
-Route::prefix('/members')
-->middleware('auth:users')
+Route::prefix('/manager')
+->middleware('auth:manager')
 ->controller(HomeController::class)
-->name('members.')
+->name('manager.')
 ->group(function() {
-    Route::get('/dashboard', 'index')->name('dashboard');
-
+    Route::get('dashboard', 'index')->name('dashboard');
 });
 
+// Route::get('/manager', [LoginController::class, 'index'])->name('manager.index');
+// Route::post('/manager/login', [LoginController::class, 'login'])->name('manager.login');
+// Route::post('/manager/logout', [LoginController::class, 'logout'])->name('manager.logout');
