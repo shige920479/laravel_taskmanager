@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             ManagerSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            TaskSeeder::class,
+            MessageSeeder::class
         ]);
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,7 +17,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('members.dashboard');
+        $user = Auth::user();
+        $query = Task::where('user_id', '=' , $user->id);
+        $tasks = $query->simplePaginate(10);
+        $categories = $query->get()->pluck('category')->unique();
+
+        return view('members.dashboard', compact('user', 'tasks', 'categories'));
     }
 
     /**
