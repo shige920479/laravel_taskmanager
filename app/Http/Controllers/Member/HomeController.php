@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -41,9 +43,13 @@ class HomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+        $validated = $request->validated();
+        // dd($validated);
+        Task::create($validated);
+
+        return to_route('members.dashboard');
     }
 
     /**
@@ -65,7 +71,11 @@ class HomeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $user = Auth::user();
+        $query = Task::where('user_id', '=' , $user->id);
+        $categories = $query->get()->pluck('category')->unique();
+        return view('members.edit', compact('task', 'categories', 'user'));
     }
 
     /**
@@ -75,9 +85,14 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $validated = $request->validated();
+        $task->update($validated);
+
+        return to_route('members.dashboard');
+
     }
 
     /**

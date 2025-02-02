@@ -38,6 +38,9 @@ Route::prefix('/members')
 ->name('members.')
 ->group(function() {
     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::post('/dashboard', 'store')->name('store');
+    Route::get('/edit/{id}', 'edit')->name('edit');
+    Route::put('/edit/{id}', 'update')->name('update');
 
 });
 

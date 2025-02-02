@@ -6,9 +6,6 @@
     <title>TaskManager</title>
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{{ asset('js/main.js') }}"></script> 
-    {{-- 後で、bodyの最下段にもってくる --}}
   </head>
   <body>
     <header>

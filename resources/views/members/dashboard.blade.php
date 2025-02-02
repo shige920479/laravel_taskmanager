@@ -1,18 +1,25 @@
-@include('layouts.memberHeader')
+@include('components.header')
 
     <div class="task-wrapper">
       <section id="new-task">
         <h2>新規タスク登録</h2>
-        <form action="*****************" method="post">
+
+        @if ($errors->any())
+          @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>            
+          @endforeach
+        @endif
+
+        <form action="{{ route('members.store') }}" method="post">
           @csrf
           <ul>
             <li>
               <label for="priority">優先度</label>
               <select name="priority">
                 <option value="">選択</option>
-                <option value="3" @if (old('priority') === 3) selected @endif>高</option>
-                <option value="2" @if (old('priority') === 2) selected @endif>中</option>
-                <option value="1" @if (old('priority') === 1) selected @endif>低</option>
+                <option value="3" @if (old('priority') === "3") selected @endif>高</option>
+                <option value="2" @if (old('priority') === "2") selected @endif>中</option>
+                <option value="1" @if (old('priority') === "1") selected @endif>低</option>
               </select>
               {{-- エラーメッセージ --}}
             </li>
@@ -46,6 +53,7 @@
               <button type="submit" id="regist-btn" class="btn">登録</button>
             </li>
           </ul>
+          <input type="hidden" name="user_id" value="{{ $user->id }}">
         </form>
       </section>
       <section id="task-list">
@@ -87,7 +95,7 @@
                 @endif
               </td>
               {{-- <td class="comp-icon"><?php echo $task['del_flag'] === 2 ? '<img src="' . PATH . 'images/turnback-green.png">' : "" ;?></td> --}}
-              <td class="edit-link"><a href="※※※※※※※※※※※">{{ $task->theme }}</a></td>
+              <td class="edit-link"><a href="{{ route('members.edit', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
               {{-- <td class="edit-link"><?php echo "<a href='?mode=edit&id={$task['id']}'>{$task['theme']}</a>" ?></td> --}}
               <td>{{ $task->content }}</td>
               {{-- <td><?php echo $task['content'] ?></td> --}}
@@ -115,5 +123,4 @@
         </table>
       </section>
     </div>
-  </body>
-</html>
+@include('components.footer')
