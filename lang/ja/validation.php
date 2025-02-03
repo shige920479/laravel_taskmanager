@@ -15,8 +15,9 @@ return [
     'accepted'             => ':attributeを承認してください。',
     'active_url'           => ':attributeは、有効なURLではありません。',
     'after'                => ':attributeには、:dateより後の日付を指定してください。',
-    'after_or_equal'       => ':attributeには、:date以降の日付を指定してください。',
-    'alpha'                => ':attributeには、アルファベッドのみ使用できます。',
+    // 'after_or_equal'       => ':attributeには、:date以降の日付を指定してください。',
+    'after_or_equal'       => '過去の日付です',
+    'alpha'                => ':attributeには、アルファベッドのみ使用できます',
     'alpha_dash'           => ':attributeには、英数字(\'A-Z\',\'a-z\',\'0-9\')とハイフンと下線(\'-\',\'_\')が使用できます。',
     'alpha_num'            => ':attributeには、英数字(\'A-Z\',\'a-z\',\'0-9\')が使用できます。',
     'array'                => ':attributeには、配列を指定してください。',
@@ -131,5 +132,10 @@ return [
         'name' => 'お名前',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'priority' => '優先度',
+        'category' => 'カテゴリー',
+        'theme' => 'テーマ',
+        'content' => 'タスク概略',
+        'deadline' => '目標完了日'
     ],
 ];

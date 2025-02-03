@@ -17,7 +17,7 @@
           <div id="menu-icon">
             <img src="{{ asset('images/menu.png') }}" alt="">
             <div class="menu-content">
-              <P>{{ $user->name }}さん</P>
+              <P>{{ $username }}さん</P>
               <form action="{{ route('members.logout') }}" method="post">
                 @csrf
                 <button id="logout-btn" type="submit">ログアウト</button>
@@ -27,3 +27,10 @@
         </div>  
       </div>
     </header>
+
+      {{ $slot }}
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script> 
+  </body>
+</html>

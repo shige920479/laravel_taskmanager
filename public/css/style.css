@@ -464,10 +464,10 @@ header {
 }
 
 /*削除メッセージ */
-#task-list .del_msg,
+#task-list .success-msg,
 #task-list .initial-msg,
 #m-task-list .initial-msg,
-#m-task-list .del_msg {
+#m-task-list .success-msg {
     color: #fff;
     margin-left: 40px;
     font-size: 0.8rem;
@@ -477,7 +477,7 @@ header {
     font-weight: bold;
     position: relative;
 }
-#task-list .del_msg::before,
+#task-list .success-msg::before,
 #task-list .initial-msg::before {
     content: "";
     display: inline-block;

@@ -1,4 +1,5 @@
-@include('components.header')
+<x-header>
+  <x-slot name="username">{{ $user->name }}</x-slot>
 
     <div class="task-wrapper">
       <section id="new-task">
@@ -8,7 +9,7 @@
           <ul>
             <li>
               <label for="priority">優先度</label>
-              <select name="priority" class="@error('priority') is-invalid @enderror">
+              <select name="priority">
                 <option value="">選択</option>
                 <option value="3" @if (old('priority') === "3") selected @endif>高</option>
                 <option value="2" @if (old('priority') === "2") selected @endif>中</option>
@@ -21,7 +22,7 @@
             <li>
               <label for="catgory">カテゴリー</label>
               <input type="text" name="category" list="categories" placeholder="テキスト入力または選択" autocomplete="off"
-              value="{{ old('category') }}" class="@error('category') is-invalid @enderror"/>
+              value="{{ old('category') }}"/>
               <datalist id="categories">
                 @foreach ($categories as $category)
                   <option value="{{ $category }}">{{ $category }}</option>
@@ -33,21 +34,21 @@
             </li>
             <li>
               <label for="theme">テーマ</label>
-              <input type="text" name="theme" id="theme" value="{{ old('theme') }}" class="@error('theme') is-invalid @enderror"/>
+              <input type="text" name="theme" id="theme" value="{{ old('theme') }}"/>
                 @error('theme')
                   <span class="flash-msg">{{ $message }}</span>
                 @enderror
             </li>
             <li>
               <label for="content">タスク概略</label>
-              <input type="text" name="content" id="content" value=" {{ old('content') }}" class="@error('content') is-invalid @enderror" />
+              <input type="text" name="content" id="content" value=" {{ old('content') }}"/>
                 @error('content')
                 <span class='flash-msg'>{{ $message }}</span>
                 @enderror
             </li>
             <li>
               <label for="deadline">目標完了日</label>
-              <input type="date" name="deadline" id="deadline" value="{{ old('deadline') }}" class="@error('deadline') is-invalid @enderror"/>
+              <input type="date" name="deadline" id="deadline" value="{{ old('deadline') }}"/>
                 @error('deadline')
                   <span class='flash-msg'>{{ $message }}</span>
                 @enderror
@@ -62,23 +63,27 @@
       <section id="task-list">
         <div id="title-page">
           <h2>タスク一覧</h2>
-            {{-- <?php if(!empty($_SESSION['del_msg'])) :?>
-            <?php echo "<span class='del_msg'>{$_SESSION['del_msg']}</span>"; ?>
-            <?php unset($_SESSION['del_msg'])?>
-            <?php endif ;?> --}}
-            {{-- <?php echo empty($tasks) ? "<span class='initial-msg'>未完了のタスクはありません</span>": '';?> --}}
+            @if(count($tasks) ===0)
+              <span class='initial-msg'>タスクの登録はありません</span>
+            @elseif(session('success'))
+              <span class='success-msg'>{{ session('success') }}</span>
+            @endif
         </div>
         <div id="sort-pagination">
-          <form action="" method="get" id="sort">
+          <form action="{{ route('members.dashboard') }}" method="get" id="sort">
             <select name="sort_order" id="sort_order">
-              <option value="">新規登録順</option>
-              <option value="sort_deadline" <?php echo isset($request['sort_order']) && $request['sort_order'] === 'sort_deadline' ? 'selected': "";?>>目標完了日順</option>
-              <option value="sort_category" <?php echo isset($request['sort_order']) && $request['sort_order'] === 'sort_category' ? 'selected': "";?>>カテゴリー別</option>
-              <option value="sort_priority" <?php echo isset($request['sort_order']) && $request['sort_order'] === 'sort_priority' ? 'selected': "";?>>優先度順</option>
+              <option value="" @if (is_null($sort)) selected @endif>新規登録順</option>
+              <option value="sort_deadline" @if ($sort === 'sort_deadline') selected @endif>目標完了日順</option>
+              <option value="sort_category" @if ($sort === 'sort_category') selected @endif>カテゴリー別</option>
+              <option value="sort_priority" @if ($sort === 'sort_priority') selected @endif>優先度順</option>
             </select>
             <input type="hidden" name="mode" value="index">
           </form>
-          <ul id="paginate">{{ $tasks->links() }}</ul>
+          {{-- <ul id="paginate"> --}}
+          <div>
+            {{ $tasks->onEachSide(5)->links('vendor.pagination.tailwind2') }}
+          </div>
+          {{-- </ul> --}}
         </div>
         <table>
           <thead>
@@ -133,4 +138,4 @@
         </table>
       </section>
     </div>
-@include('components.footer')
+</x-header>

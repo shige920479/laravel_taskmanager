@@ -49,7 +49,7 @@ use function App\Services\MgSetSendIcon;
         <div id="title-page">
           <h2>タスク一覧</h2>
             <?php if(!empty($_SESSION['del_msg'])) :?>
-                <?php echo "<span class='del_msg'>{$_SESSION['del_msg']}</span>"; ?>
+                <?php echo "<span class='success-msg'>{$_SESSION['del_msg']}</span>"; ?>
                 <?php unset($_SESSION['del_msg']);?>
             <?php endif ;?>
             <?php echo empty($tasks) ? "<span class='initial-msg'>未完了のタスクはありません</span>": '';?>

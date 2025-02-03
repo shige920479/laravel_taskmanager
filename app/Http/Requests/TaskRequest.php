@@ -26,7 +26,7 @@ class TaskRequest extends FormRequest
      */
     public function rules()
     {
-        $today = Carbon::now(); 
+        $today = Carbon::today('Asia/Tokyo'); 
 
         return [
             'user_id' => ['required',],
@@ -39,6 +39,13 @@ class TaskRequest extends FormRequest
             'mg_to_mem' => ['nullable', 'between:0,1'],
             'mem_to_mg' => ['nullable', 'between:0,2'],
             'del_flag' => ['nullable', 'between:0,2'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'priority' => '正しく入力してください',
         ];
     }
 }

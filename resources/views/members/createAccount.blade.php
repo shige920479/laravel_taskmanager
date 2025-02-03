@@ -11,7 +11,7 @@
     <section class="login-wrapper">
       <h1>Task Manager</h1>
       <h2>アカウント作成</h2>
-      <form action="{{ route('members.store')}}" method="post" class="login-box">
+      <form action="{{ route('members.accountstore')}}" method="post" class="login-box">
         @csrf
         <ul>
           <div class="input account">

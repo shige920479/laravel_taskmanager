@@ -18,14 +18,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $query = Task::where('user_id', '=' , $user->id);
-        $tasks = $query->simplePaginate(10);
+        $sort = $request->sort_order;
+        if(is_null($sort)) $tasks = $query->paginate(10)->withQueryString();
+        if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10)->withQueryString();
+        if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10)->withQueryString();
+        if($sort === 'sort_priority') $tasks = $query->orderBy('priority', 'desc')->paginate(10)->withQueryString();
         $categories = $query->get()->pluck('category')->unique();
 
-        return view('members.dashboard', compact('user', 'tasks', 'categories'));
+        return view('members.dashboard', compact('user', 'tasks', 'categories', 'sort'));
     }
 
     /**
@@ -50,7 +54,7 @@ class HomeController extends Controller
         // dd($validated);
         Task::create($validated);
 
-        return to_route('members.dashboard')->with('store_success');
+        return to_route('members.dashboard')->with('success', '新規タスクを登録しました');
     }
 
     /**

@@ -27,7 +27,7 @@ Route::prefix('/member')
 ->name('members.')
 ->group(function() {
     Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
+    Route::post('/store', 'store')->name('accountstore');
     Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
 });
