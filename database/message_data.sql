@@ -172,3 +172,7 @@ VALUES
 (44, 'manager-message text text text', 0),
 (44, 'member-message text text text', 1)
 ;
+UPDATE tasks SET msg_flag = 1, mg_to_mem = 1, mem_to_mg = 0 WHERE id IN (1,11,21,31,41);
+UPDATE tasks SET msg_flag = 1, mg_to_mem = 0, mem_to_mg = 0 WHERE id IN (2,12,22,32,42);
+UPDATE tasks SET msg_flag = 1, mg_to_mem = 0, mem_to_mg = 1 WHERE id IN (3,13,23,33,43);
+UPDATE tasks SET msg_flag = 1, mg_to_mem = 0, mem_to_mg = 2 WHERE id IN (4,14,24,34,44);

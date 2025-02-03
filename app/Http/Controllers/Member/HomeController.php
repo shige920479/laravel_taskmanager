@@ -9,6 +9,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function App\Services\setSendIcon;
 
 class HomeController extends Controller
 {
@@ -49,7 +50,7 @@ class HomeController extends Controller
         // dd($validated);
         Task::create($validated);
 
-        return to_route('members.dashboard');
+        return to_route('members.dashboard')->with('store_success');
     }
 
     /**

@@ -3,51 +3,54 @@
     <div class="task-wrapper">
       <section id="new-task">
         <h2>新規タスク登録</h2>
-
-        @if ($errors->any())
-          @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>            
-          @endforeach
-        @endif
-
         <form action="{{ route('members.store') }}" method="post">
           @csrf
           <ul>
             <li>
               <label for="priority">優先度</label>
-              <select name="priority">
+              <select name="priority" class="@error('priority') is-invalid @enderror">
                 <option value="">選択</option>
                 <option value="3" @if (old('priority') === "3") selected @endif>高</option>
                 <option value="2" @if (old('priority') === "2") selected @endif>中</option>
                 <option value="1" @if (old('priority') === "1") selected @endif>低</option>
               </select>
-              {{-- エラーメッセージ --}}
+               @error('priority')
+                <span class='flash-msg'>{{ $message }}</span>
+               @enderror
             </li>
             <li>
               <label for="catgory">カテゴリー</label>
               <input type="text" name="category" list="categories" placeholder="テキスト入力または選択" autocomplete="off"
-              value="{{ old('category') }}"/>
+              value="{{ old('category') }}" class="@error('category') is-invalid @enderror"/>
               <datalist id="categories">
                 @foreach ($categories as $category)
                   <option value="{{ $category }}">{{ $category }}</option>
                 @endforeach
               </datalist>
-              {{-- <?php echo isset($flash_array['category']) ? "<span class='flash-msg'>{$flash_array['category']}</span>" : '' ?> --}}
+                @error('category')
+                  <span class='flash-msg'>{{ $message }}</span>
+                @enderror
             </li>
             <li>
               <label for="theme">テーマ</label>
-              <input type="text" name="theme" id="theme" value="{{ old('theme') }}"/>
-              {{-- <?php echo isset($flash_array['theme']) ? "<span class='flash-msg'>{$flash_array['theme']}</span>" : '' ?> --}}
+              <input type="text" name="theme" id="theme" value="{{ old('theme') }}" class="@error('theme') is-invalid @enderror"/>
+                @error('theme')
+                  <span class="flash-msg">{{ $message }}</span>
+                @enderror
             </li>
             <li>
               <label for="content">タスク概略</label>
-              <input type="text" name="content" id="content" value=" {{ old('content') }}" />
-              {{-- <?php echo isset($flash_array['content']) ? "<span class='flash-msg'>{$flash_array['content']}</span>" : '' ?> --}}
+              <input type="text" name="content" id="content" value=" {{ old('content') }}" class="@error('content') is-invalid @enderror" />
+                @error('content')
+                <span class='flash-msg'>{{ $message }}</span>
+                @enderror
             </li>
             <li>
               <label for="deadline">目標完了日</label>
-              <input type="date" name="deadline" id="deadline" value="{{ old('deadline') }}"/>
-              {{-- <?php echo isset($flash_array['deadline']) ? "<span class='flash-msg'>{$flash_array['deadline']}</span>" : '' ?> --}}
+              <input type="date" name="deadline" id="deadline" value="{{ old('deadline') }}" class="@error('deadline') is-invalid @enderror"/>
+                @error('deadline')
+                  <span class='flash-msg'>{{ $message }}</span>
+                @enderror
             </li>
             <li>
               <button type="submit" id="regist-btn" class="btn">登録</button>
@@ -87,34 +90,41 @@
             @foreach ($tasks as $task)
             <tr>
               <td class="priority">{{ str_repeat('☆', $task->priority) }}</td>
-              {{-- <td class="priority"><?php echo str_repeat('☆', $task['priority'])?></td> --}}
               <td>{{ $task->category }}</td>
               <td class="comp-icon">
                 @if ($task->del_flag === 2)
                   <img src="{{ asset('images/turnback-green.png') }}" alt="">
                 @endif
               </td>
-              {{-- <td class="comp-icon"><?php echo $task['del_flag'] === 2 ? '<img src="' . PATH . 'images/turnback-green.png">' : "" ;?></td> --}}
               <td class="edit-link"><a href="{{ route('members.edit', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
-              {{-- <td class="edit-link"><?php echo "<a href='?mode=edit&id={$task['id']}'>{$task['theme']}</a>" ?></td> --}}
               <td>{{ $task->content }}</td>
-              {{-- <td><?php echo $task['content'] ?></td> --}}
               <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
-              {{-- <td><?php echo date('m月d日', strtotime($task['deadline']))  ?></td> --}}
               <td class="msg-icon">
-              {{-- アイコン表示は後で対応する --}}
-                {{-- <?php echo setSendIcon($task['msg_flag'], $task['mem_to_mg'], $task['id']) ?> --}}
+                @if ($task->msg_flag !== 0 && $task->mem_to_mg === 1)  {{-- routeは後で修正 --}}
+                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                    <img src="{{ asset('images/hikoki.png') }}" alt="">
+                  </a>
+                @elseif ($task->msg_flag !== 0 && $task->mem_to_mg === 2)
+                <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                  <img src="{{ asset('images/checkbox.png') }}" alt="">
+                </a>
+                @endif
               </td>
               <td class="msg-icon">
-                {{-- <?php echo setRecieveIcon($task['msg_flag'], $task['mg_to_mem'], $task['id']) ?> --}}
+                @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)  {{-- routeは後で修正 --}}
+                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                    <img src="{{ asset('images/midoku.png') }}" alt="">
+                  </a>
+                @elseif ($task->msg_flag !== 0 && $task->mg_to_mem === 0)
+                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                    <img src="{{ asset('images/kidoku.png') }}" alt="">
+                  </a>
+                @endif
               </td>
               <td>
-                <form action="※※※※※※※※※※※※" method="post">
+                <form action="※※※※※※※※※※※※" method="post"> {{-- 後で設定 --}}
                   @csrf
                   <button type="submit" class="comp-btn btn">完了</button>
-                  {{-- <input type="hidden" name="mode" value="soft_del">
-                  <input type="hidden" name="id" value="<?php echo h($task['id']) ?>">
-                  <input type="hidden" name="token" value="<?php echo h($token); ?>"> --}}
                 </form>
               </td>
             </tr>
