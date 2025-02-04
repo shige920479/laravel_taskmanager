@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -12,9 +15,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('manager.dashboard');
+        $sort = $request->sort_order;
+        $user = Auth::user();
+        $query = DB::table('tasks');
+        $tasks = $query->paginate(10);
+        $categories = $query->pluck('category')->unique();
+        $members = DB::table('users')->get();
+
+        // dd($user, $tasks, $members, $categories);
+
+        // dd($tasks);
+        return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories'));
     }
 
     /**

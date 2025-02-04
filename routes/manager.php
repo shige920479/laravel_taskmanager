@@ -36,6 +36,7 @@ Route::prefix('/manager')
 ->name('manager.')
 ->group(function() {
     Route::get('dashboard', 'index')->name('dashboard');
+    
 });
 
 // Route::get('/manager', [LoginController::class, 'index'])->name('manager.index');
