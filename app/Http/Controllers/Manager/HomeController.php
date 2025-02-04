@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Sevices\MyUtil;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,13 +22,19 @@ class HomeController extends Controller
         $sort = $request->sort_order;
         $user = Auth::user();
         $query = DB::table('tasks');
-        $tasks = $query->paginate(10);
+
+        if(is_null($sort)) $tasks = $query->orderBy('updated_at')->paginate(10);
+        if($sort === 'sort_name') $tasks = $query->orderBy('user_id')->paginate(10);
+        if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10);
+        if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10);
+        if($sort === 'sort_priority') $tasks = $query->orderBy('priority', 'desc')->paginate(10);
+
         $categories = $query->pluck('category')->unique();
         $members = DB::table('users')->get();
-
         // dd($user, $tasks, $members, $categories);
-
         // dd($tasks);
+
+
         return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories'));
     }
 

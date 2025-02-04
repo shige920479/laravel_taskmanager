@@ -81,7 +81,7 @@
           </form>
           {{-- <ul id="paginate"> --}}
           <div>
-            {{ $tasks->onEachSide(5)->links('vendor.pagination.tailwind2') }}
+            {{ $tasks->withQueryString()->links('vendor.pagination.tailwind2') }}
           </div>
           {{-- </ul> --}}
         </div>

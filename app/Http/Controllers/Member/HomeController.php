@@ -23,10 +23,10 @@ class HomeController extends Controller
         $user = Auth::user();
         $query = Task::where('user_id', '=' , $user->id);
         $sort = $request->sort_order;
-        if(is_null($sort)) $tasks = $query->paginate(10)->withQueryString();
-        if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10)->withQueryString();
-        if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10)->withQueryString();
-        if($sort === 'sort_priority') $tasks = $query->orderBy('priority', 'desc')->paginate(10)->withQueryString();
+        if(is_null($sort)) $tasks = $query->orderBy('updated_at')->paginate(10);
+        if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10);
+        if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10);
+        if($sort === 'sort_priority') $tasks = $query->orderBy('priority', 'desc')->paginate(10);
         $categories = $query->get()->pluck('category')->unique();
 
         return view('members.dashboard', compact('user', 'tasks', 'categories', 'sort'));

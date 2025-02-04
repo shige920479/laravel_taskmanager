@@ -45,14 +45,14 @@
       <form action="{{ route('manager.dashboard') }}" method="get" id="sort">
         <select name="sort_order" id="sort_order">
           <option value="" @if (is_null($sort)) selected @endif>新規登録順</option>
-          <option value="sort_name" @if ($sort === "sort_name") selected @endif></option>
+          <option value="sort_name" @if ($sort === "sort_name") selected @endif>メンバー別</option>
           <option value="sort_category" @if ($sort === "sort_category") selected @endif>カテゴリー別</option>
           <option value="sort_deadline" @if ($sort === "sort_deadline") selected @endif>完了目標順</option>
           <option value="sort_priority" @if ($sort === "sort_priority") selected @endif>優先度順</option>
         </select>
       </form>
       <div id="paginate">
-        {{ $tasks->onEachSide(5)->links('vendor.pagination.tailwind2') }}
+        {{ $tasks->withQueryString()->links('vendor.pagination.tailwind2') }}
       </div>
     </div>
     <table>
@@ -78,7 +78,8 @@
           <td><a href="{{ route('members.edit', ['id' => $task->id]) }}">{{ $task->theme }}</a></td>
           <td>{{ $task->content }}</td>
           <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
-          <td class="diff-date" data-days="{{ diffDate($task->deadline) }}">{{ diffDate($task->deadline) }}</td>
+          <td class="diff-date" data-days="{{ MyLib::diffDate($task->deadline) }}">{{ MyLib::diffDate($task->deadline) }}</td>
+
           {{-- <td class="diff-date" data-days="{{  }}<?= diffDate($task['deadline']) ?>"><?= diffDate($task['deadline'])."日" ?></td> --}}
           {{-- <td class="diff-date" data-days="<?= diffDate($task['deadline']) ?>"><?= diffDate($task['deadline'])."日" ?></td> --}}
           <td class="msg-icon">
