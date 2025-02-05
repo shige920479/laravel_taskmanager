@@ -10,18 +10,18 @@
           <label for="name">メンバー名</label>
           <select name="name" id="name">
             <option value="">全て選択</option>
-            @foreach ($members as $member)
-              <option value="{{ $member->id }}">{{ $member->name }}</option>
-            @endforeach
+            {{-- @foreach ($members as $user)
+              <option value="{{ $user->id }}" @if($search['name'] == $user->id) selected @endif>{{ $user->name }}</option>
+            @endforeach --}}
           </select>
         </li>
         <li>
           <label for="category">カテゴリー</label>
           <select name="category" id="category">
             <option value="">全て選択</option>
-            @foreach ($categories as $category)
-              <option value="{{ $category }}">{{ $category }}</option>
-            @endforeach
+            {{-- @foreach ($categories as $category)
+              <option value="{{ $category }}" @if($search['category'] === $category) selected @endif>{{ $category }}</option>
+            @endforeach --}}
           </select>
         </li>
         <li>
@@ -75,7 +75,7 @@
               <img src="{{ asset('images/turnback-green.png') }}" alt="">
             @endif
           </td>
-          <td><a href="{{ route('members.edit', ['id' => $task->id]) }}">{{ $task->theme }}</a></td>
+          <td class="edit-link"><a href="{{ route('manager.chatview', ['id' => $task->id]) }}">{{ $task->theme }}</a></td>
           <td>{{ $task->content }}</td>
           <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
           <td class="diff-date" data-days="{{ MyLib::diffDate($task->deadline) }}">{{ MyLib::diffDate($task->deadline) }}</td>
@@ -84,16 +84,24 @@
           {{-- <td class="diff-date" data-days="<?= diffDate($task['deadline']) ?>"><?= diffDate($task['deadline'])."日" ?></td> --}}
           <td class="msg-icon">
             @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)
-              <img src="{{ asset('images/hikoki.png') }}">
+              <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
+                <img src="{{ asset('images/hikoki.png') }}">
+              </a>
             @elseif ($task->msg_flag !== 0 && $task->mg_to_mem === 0)
-              <img src="{{ asset('images/checkbox.png') }}" alt="">
+              <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
+                <img src="{{ asset('images/checkbox.png') }}" alt="">
+              </a>
             @endif
           </td>
           <td class="msg-icon">
             @if ($task->msg_flag !== 0 && $task->mem_to_mg === 1)
-              <img src="{{ asset('images/midoku.png') }}">
+              <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
+                <img src="{{ asset('images/midoku.png') }}">
+              </a>
             @elseif ($task->msg_flag !== 0 && $task->mem_to_mg === 2)
-              <img src="{{ asset('images/kidoku.png') }}" alt="">
+              <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
+                <img src="{{ asset('images/kidoku.png') }}" alt="">
+              </a>
             @endif
           </td>
           <td>

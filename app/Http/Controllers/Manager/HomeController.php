@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\User;
 use App\Sevices\MyUtil;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,11 +20,26 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request);
+
+        // $search = $request->all();
+        // $sort = $request->sort_order;
+        // $user = Auth::user();
+
+        // if(is_null($sort)) $tasks = Task::search($search)->orderBy('updated_at')->paginate(10);
+        // if($sort === 'sort_name') $tasks = Task::search($search)->orderBy('user_id')->paginate(10);
+        // if($sort === 'sort_category') $tasks = Task::search($search)->orderBy('category')->paginate(10);
+        // if($sort === 'sort_deadline') $tasks = Task::search($search)->orderBy('deadline')->paginate(10);
+        // if($sort === 'sort_priority') $tasks = Task::search($search)->orderBy('priority', 'desc')->paginate(10);
+
+        // $categories = DB::table('tasks')->pluck('category')->unique();
+        // $members = DB::table('users')->get();
+
         $sort = $request->sort_order;
         $user = Auth::user();
         $query = DB::table('tasks');
 
-        if(is_null($sort)) $tasks = $query->orderBy('updated_at')->paginate(10);
+        if(is_null($sort)) $tasks = $query->orderBy('updated_at', 'desc')->paginate(10);
         if($sort === 'sort_name') $tasks = $query->orderBy('user_id')->paginate(10);
         if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10);
         if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10);
@@ -31,11 +47,9 @@ class HomeController extends Controller
 
         $categories = $query->pluck('category')->unique();
         $members = DB::table('users')->get();
-        // dd($user, $tasks, $members, $categories);
-        // dd($tasks);
-
 
         return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories'));
+        // return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories', 'search'));
     }
 
     /**
@@ -65,9 +79,23 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = Auth::user();
+        $query = DB::table('tasks');
+        $tasks = $query->get();
+        $categories = $query->pluck('category')->unique();
+
+        Carbon::setLocale('ja');
+        $current_week = $request->week ?? Carbon::today()->format('Y-m-d'); 
+        $start_date = Carbon::parse($current_week)->startOfWeek(Carbon::MONDAY);
+        $end_date = Carbon::parse($current_week)->endOfWeek(Carbon::FRIDAY);
+        $prev_week = $start_date->copy()->subWeek()->format('Y-m-d');
+        $next_week = $end_date->copy()->addWeek()->format('Y-m-d');
+
+        return view('manager.callender', compact(
+            'user', 'tasks', 'categories', 'start_date', 'end_date', 'prev_week', 'next_week'
+        ));
     }
 
     /**

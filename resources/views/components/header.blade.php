@@ -10,7 +10,7 @@
   <body>
     <header>
       <div id="task-header" class="task-wrapper">
-        <h1>タスクNOTE</h1>
+        <h1>タスクManager</h1>
         <div id="header-nav">
           <div><a href="{{ route('members.dashboard') }}" id="header-link">タスク一覧</a></div>
           <div><a href="##########" id="header-link">タスクカレンダー</a></div>

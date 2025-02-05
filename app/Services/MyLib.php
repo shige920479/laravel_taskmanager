@@ -10,4 +10,5 @@ class MyLib
     $remain_date = Carbon::today()->diffInDays($deadline_date);
     return $remain_date;
   }
+
 }

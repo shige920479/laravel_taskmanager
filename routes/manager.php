@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Manager\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\LoginController;
 use App\Http\Controllers\Manager\HomeController;
-
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +37,20 @@ Route::prefix('/manager')
 ->name('manager.')
 ->group(function() {
     Route::get('dashboard', 'index')->name('dashboard');
+    Route::get('callender', 'show')->name('callender');
     
 });
+
+Route::prefix('/manager')
+->middleware('auth:manager')
+->controller(ChatController::class)
+->name('manager.')
+->group(function () {
+    Route::get('/chatview/{id}', 'chatView')->name('chatview');
+    Route::post('/chatview/{id}', 'sendMessage')->name('sendmessage');
+});
+
+
 
 // Route::get('/manager', [LoginController::class, 'index'])->name('manager.index');
 // Route::post('/manager/login', [LoginController::class, 'login'])->name('manager.login');

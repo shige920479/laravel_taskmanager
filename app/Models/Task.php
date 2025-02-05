@@ -22,6 +22,31 @@ class Task extends Model
         'del_flag',
     ];
 
+    public function scopeSearch($query, $search)
+    {
+        $member_id = $search['name'] ?? '';
+        $category = $search['category'] ?? '';
+        $theme = $search['theme'] ?? '';
+
+        $query->when($member_id, function($query, $member_id) {
+            $query->where('user_id', $member_id);
+        }) ;
+
+        $query->when($category, function($query, $category) {
+            $query->where('category', 'like', "%$category%");
+        });
+
+        if($theme !== null) {
+            $theme_split = mb_convert_kana($theme, 's');
+            $theme_split2 = preg_split('/[\s]+/', $theme_split);
+            foreach($theme_split2 as $value) {
+                $query->when($value, function($query, $value) {
+                    $query->where('theme', 'like', "%$value%");
+                });
+            }
+        }
+        return $query;
+    }
 
     public function users()
     {

@@ -755,6 +755,14 @@ header {
 .sendback-btn {
     background-color: rgb(238, 18, 73);
 }
+#message-box .success-msg {
+    color: #fff;
+    margin-left: 20px;
+    font-size: 0.8rem;
+    background-color: #748baee8;
+    padding: 0px 20px;
+    border-radius: 5px;
+}
 /*----------------------------------------------------
 ダッシュボード MemberCallenderView.php, ManagerCallenderView.php, 
 ----------------------------------------------------*/

@@ -7,6 +7,7 @@ use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use function App\Services\setSendIcon;
@@ -23,7 +24,7 @@ class HomeController extends Controller
         $user = Auth::user();
         $query = Task::where('user_id', '=' , $user->id);
         $sort = $request->sort_order;
-        if(is_null($sort)) $tasks = $query->orderBy('updated_at')->paginate(10);
+        if(is_null($sort)) $tasks = $query->orderBy('updated_at', 'desc')->paginate(10);
         if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10);
         if($sort === 'sort_category') $tasks = $query->orderBy('category')->paginate(10);
         if($sort === 'sort_priority') $tasks = $query->orderBy('priority', 'desc')->paginate(10);
@@ -63,9 +64,24 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = Auth::user();
+        $query = Task::where('user_id', $user->id);
+        $tasks = $query->get();
+        $categories = $query->pluck('category')->unique();
+
+        
+        Carbon::setLocale('ja');
+        $current_week = $request->week ?? Carbon::today()->format('Y-m-d'); 
+        $start_date = Carbon::parse($current_week)->startOfWeek(Carbon::MONDAY);
+        $end_date = Carbon::parse($current_week)->endOfWeek(Carbon::FRIDAY);
+        $prev_week = $start_date->copy()->subWeek()->format('Y-m-d');
+        $next_week = $end_date->copy()->addWeek()->format('Y-m-d');
+
+        return view('members.callender', compact(
+            'user', 'tasks', 'categories', 'start_date', 'end_date', 'prev_week', 'next_week'
+        ));
     }
 
     /**

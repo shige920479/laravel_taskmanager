@@ -136,6 +136,7 @@ return [
         'category' => 'カテゴリー',
         'theme' => 'テーマ',
         'content' => 'タスク概略',
-        'deadline' => '目標完了日'
+        'deadline' => '目標完了日',
+        'comment' => 'メッセージ'
     ],
 ];

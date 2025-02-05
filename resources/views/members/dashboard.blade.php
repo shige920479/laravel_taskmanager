@@ -101,27 +101,27 @@
                   <img src="{{ asset('images/turnback-green.png') }}" alt="">
                 @endif
               </td>
-              <td class="edit-link"><a href="{{ route('members.edit', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
+              <td class="edit-link"><a href="{{ route('members.chatview', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
               <td>{{ $task->content }}</td>
               <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
               <td class="msg-icon">
                 @if ($task->msg_flag !== 0 && $task->mem_to_mg === 1)  {{-- routeは後で修正 --}}
-                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                  <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                     <img src="{{ asset('images/hikoki.png') }}" alt="">
                   </a>
                 @elseif ($task->msg_flag !== 0 && $task->mem_to_mg === 2)
-                <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                   <img src="{{ asset('images/checkbox.png') }}" alt="">
                 </a>
                 @endif
               </td>
               <td class="msg-icon">
                 @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)  {{-- routeは後で修正 --}}
-                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                  <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                     <img src="{{ asset('images/midoku.png') }}" alt="">
                   </a>
                 @elseif ($task->msg_flag !== 0 && $task->mg_to_mem === 0)
-                  <a href="{{ route('members.edit', ['id'=>$task->id]) }}">
+                  <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                     <img src="{{ asset('images/kidoku.png') }}" alt="">
                   </a>
                 @endif

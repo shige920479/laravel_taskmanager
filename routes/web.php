@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Member\ChatController;
 use App\Http\Controllers\Member\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Member\LoginController;
@@ -41,6 +42,17 @@ Route::prefix('/members')
     Route::post('/dashboard', 'store')->name('store');
     Route::get('/edit/{id}', 'edit')->name('edit');
     Route::put('/edit/{id}', 'update')->name('update');
+    Route::get('callender', 'show')->name('callender');
 
+});
+
+Route::prefix('/members')
+->middleware('auth:users')
+->controller(ChatController::class)
+->name('members.')
+->group(function() {
+    Route::get('/chatview/{id}', 'chatView')->name('chatview');
+    Route::post('/chatview/{id}', 'sendMessage')->name('sendmessage'); 
+    // /{id}必要か？
 });
 
