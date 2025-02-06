@@ -10,18 +10,18 @@
           <label for="name">メンバー名</label>
           <select name="name" id="name">
             <option value="">全て選択</option>
-            {{-- @foreach ($members as $user)
+            @foreach ($members as $user)
               <option value="{{ $user->id }}" @if($search['name'] == $user->id) selected @endif>{{ $user->name }}</option>
-            @endforeach --}}
+            @endforeach
           </select>
         </li>
         <li>
           <label for="category">カテゴリー</label>
           <select name="category" id="category">
             <option value="">全て選択</option>
-            {{-- @foreach ($categories as $category)
+            @foreach ($categories as $category)
               <option value="{{ $category }}" @if($search['category'] === $category) selected @endif>{{ $category }}</option>
-            @endforeach --}}
+            @endforeach
           </select>
         </li>
         <li>

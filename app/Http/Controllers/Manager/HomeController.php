@@ -22,11 +22,21 @@ class HomeController extends Controller
     {
         // dd($request);
 
-        // $search = $request->all();
-        // $sort = $request->sort_order;
-        // $user = Auth::user();
+        $search = $request->all();
+        $sort = $request->sort_order;
+        $user = Auth::user();
+        
+        // 下記はリレーションが成立していない
+        // $task = Task::find(1);
+        // $task_user = $task->users;
+        // dd($task_user, $task);
 
-        // if(is_null($sort)) $tasks = Task::search($search)->orderBy('updated_at')->paginate(10);
+        // 下記はリレーションが成立している
+        // $task_user = User::first();
+        // $task = $task_user->tasks;
+        // dd($task_user, $task);
+
+        // if(is_null($sort)) $tasks = Task::search($search)->users()->orderBy('updated_at')->paginate(10);
         // if($sort === 'sort_name') $tasks = Task::search($search)->orderBy('user_id')->paginate(10);
         // if($sort === 'sort_category') $tasks = Task::search($search)->orderBy('category')->paginate(10);
         // if($sort === 'sort_deadline') $tasks = Task::search($search)->orderBy('deadline')->paginate(10);
@@ -35,6 +45,10 @@ class HomeController extends Controller
         // $categories = DB::table('tasks')->pluck('category')->unique();
         // $members = DB::table('users')->get();
 
+        // return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories', 'search'));
+        
+
+        // ここから下はとりあえずの内容
         $sort = $request->sort_order;
         $user = Auth::user();
         $query = DB::table('tasks');
@@ -49,7 +63,6 @@ class HomeController extends Controller
         $members = DB::table('users')->get();
 
         return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories'));
-        // return view('manager.dashboard', compact('sort', 'user', 'tasks', 'members', 'categories', 'search'));
     }
 
     /**

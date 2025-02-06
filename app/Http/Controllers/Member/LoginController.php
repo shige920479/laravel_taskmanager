@@ -42,11 +42,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
             // return to_route('members.dashboard');
             return redirect()->intended('/members/dashboard');
+
+        } else {
+            return redirect()->route('index')
+            ->withErrors([
+                'password' => 'メールアドレスあるいはパスワードが正しくありません',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'message' => 'メールアドレスあるいはパスワードが正しくありません',
-        ])->onlyInput('email');
     }
 
     public function logout(Request $request)

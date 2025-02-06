@@ -22,8 +22,12 @@ class LoginController extends Controller
 
         if(Auth::guard('manager')->attempt($validated)) {
             $request->session()->regenerate();
-            
             return to_route('manager.dashboard');
+        
+        } else {
+            return redirect()->route('manager.index')
+            ->withErrors(['password' => 'メールアドレスかパスワードが違っています'])
+            ->onlyInput('email');
         }
     }
 

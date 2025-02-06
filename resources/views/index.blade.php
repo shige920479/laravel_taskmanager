@@ -24,21 +24,18 @@
             <div class="input">
               <label for="email">メールアドレス</label>
               <input type="email" name="email" id="email" value="{{ old('email') }}" />
-              {{-- @error('email')
+              @error('email')
                 <span class="flash-msg">{{ $message }}</span>
-              @enderror --}}
-              @if($errors->has('email'))
+              @enderror
+              {{-- @if($errors->has('email'))
               <span class="flash-msg">{{ $errors->first('email') }}</span>
-              @endif
+              @endif --}}
             </div>
             <div class="input">
               <label for="password">パスワード</label>
               <input type="password" name="password" id="password"/>
-              {{-- @error('password')
-                <span class="flash-msg">{{ $message }}</span>
-              @enderror --}}
               @if ($errors->has('password'))
-              <span class="flash-msg">{{ $errors->first('password') }}</span>
+                <span class="flash-msg">{{ $errors->first('password') }}</span>
               @endif
             </div>
             <button type="submit">Login</button>
@@ -52,9 +49,9 @@
       <div id="to-manager">
         <a href="{{ route('manager.index')}}" class="auth-link">管理者用ログイン画面はこちら</a>
       </div>
-      @if ($errors->has('message'))
+      {{-- @if ($errors->has('message'))
         <p style="color:rgb(227, 59, 98); text-align:center; margin-top:12px;">{{ $errors->first('message') }}</p>
-      @endif
+      @endif --}}
     </section>
   </body>
 </html>

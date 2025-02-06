@@ -13,15 +13,26 @@
         <h1>タスクManager</h1>
         <div id="header-nav">
           <div><a href="{{ route('members.dashboard') }}" id="header-link">タスク一覧</a></div>
-          <div><a href="##########" id="header-link">タスクカレンダー</a></div>
+          @if (Auth::guard('users')->check())
+              <div><a href="{{ route('members.callender') }}" id="header-link">タスクカレンダー</a></div>
+            @elseif (Auth::guard('manager')->check())
+              <div><a href="{{ route('manager.callender') }}" id="header-link">タスクカレンダー</a></div>
+          @endif
           <div id="menu-icon">
             <img src="{{ asset('images/menu.png') }}" alt="">
             <div class="menu-content">
               <P>{{ $username }}さん</P>
-              <form action="{{ route('members.logout') }}" method="post">
-                @csrf
-                <button id="logout-btn" type="submit">ログアウト</button>
-              </form>
+              @if (Auth::guard('users')->check())
+                <form action="{{ route('members.logout') }}" method="post">
+                  @csrf
+                  <button id="logout-btn" type="submit">ログアウト</button>
+                </form>
+              @elseif (Auth::guard('manager')->check())
+                <form action="{{ route('manager.logout') }}" method="post">
+                  @csrf
+                  <button id="logout-btn" type="submit">ログアウト</button>
+                </form>
+              @endif
             </div>
           </div>
         </div>  
