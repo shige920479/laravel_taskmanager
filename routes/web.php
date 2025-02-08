@@ -43,6 +43,7 @@ Route::prefix('/members')
     Route::get('/edit/{id}', 'edit')->name('edit');
     Route::put('/edit/{id}', 'update')->name('update');
     Route::get('callender', 'show')->name('callender');
+    Route::put('/complete/{id}', 'complete')->name('complete');
 
 });
 
@@ -53,6 +54,5 @@ Route::prefix('/members')
 ->group(function() {
     Route::get('/chatview/{id}', 'chatView')->name('chatview');
     Route::post('/chatview/{id}', 'sendMessage')->name('sendmessage'); 
-    // /{id}必要か？
 });
 

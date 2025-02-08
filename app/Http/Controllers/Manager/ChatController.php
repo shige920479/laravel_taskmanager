@@ -36,7 +36,6 @@ class ChatController extends Controller
                 'task_id' => $id,
                 'comment' => $validated['comment'],
             ]);
-    
             //tasksテーブルのアイコン表示表ステータスの変更
             $task = Task::findOrFail($id);
             $task->update([
@@ -44,7 +43,27 @@ class ChatController extends Controller
                 'mg_to_mem' => 1
             ]);
         });
-
         return redirect()->back()->with('success', 'メッセージを送信しました');
+    }
+
+    public function sendBack(Request $request, $id)
+    {
+        $validated = $request->validate(['comment' => ['required', 'max:255'],]);
+
+        DB::transaction(function() use($id, $validated) {
+            // メッセージの新規登録
+            Message::create([
+                'task_id' => $id,
+                'comment' => $validated['comment'],
+            ]);
+            //tasksテーブルのアイコン表示表ステータスの変更、完了フラグの変更
+            $task = Task::findOrFail($id);
+            $task->update([
+                'msg_flag' => 1,
+                'mg_to_mem' => 1,
+                'del_flag' => 2
+            ]);
+        });
+        return redirect()->back()->with('success', 'このタスクの完了処理を差し戻しました。');
     }
 }

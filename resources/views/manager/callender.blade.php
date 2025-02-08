@@ -31,7 +31,7 @@
                       @else
                       <div class="box {{ 'mem-color' . $task->user_id }} ">
                       @endif
-                        <p>{{ $task->user_id }}</p> {{-- 名前と入れ替える --}}
+                        <p>{{ $task->user->name }}</p>
                         <div class="theme-flex">
                           <span class="theme">{{ $task->theme }}</span>
                           <span class="star">{{ str_repeat('★', intval($task->priority)) }}</span>

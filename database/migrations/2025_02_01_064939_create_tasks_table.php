@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade');
             $table->tinyInteger('priority');
             $table->string('category', 50);
             $table->string('theme', 50);

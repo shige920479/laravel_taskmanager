@@ -26,12 +26,12 @@ class Task extends Model
 
     public function scopeSearch($query, $search)
     {
-        $member_id = $search['name'] ?? '';
+        $user_id = $search['id'] ?? '';
         $category = $search['category'] ?? '';
         $theme = $search['theme'] ?? '';
 
-        $query->when($member_id, function($query, $member_id) {
-            $query->where('user_id', $member_id);
+        $query->when($user_id, function($query, $user_id) {
+            $query->where('user_id', $user_id);
         }) ;
 
         $query->when($category, function($query, $category) {
@@ -50,7 +50,7 @@ class Task extends Model
         return $query;
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

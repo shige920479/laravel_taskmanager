@@ -27,9 +27,6 @@
               @error('email')
                 <span class="flash-msg">{{ $message }}</span>
               @enderror
-              {{-- @if($errors->has('email'))
-              <span class="flash-msg">{{ $errors->first('email') }}</span>
-              @endif --}}
             </div>
             <div class="input">
               <label for="password">パスワード</label>
@@ -49,9 +46,6 @@
       <div id="to-manager">
         <a href="{{ route('manager.index')}}" class="auth-link">管理者用ログイン画面はこちら</a>
       </div>
-      {{-- @if ($errors->has('message'))
-        <p style="color:rgb(227, 59, 98); text-align:center; margin-top:12px;">{{ $errors->first('message') }}</p>
-      @endif --}}
     </section>
   </body>
 </html>

@@ -36,8 +36,9 @@ Route::prefix('/manager')
 ->controller(HomeController::class)
 ->name('manager.')
 ->group(function() {
-    Route::get('dashboard', 'index')->name('dashboard');
-    Route::get('callender', 'show')->name('callender');
+    Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('/callender', 'show')->name('callender');
+    Route::delete('/dashboard/{id}', 'destroy')->name('delete');
     
 });
 
@@ -48,6 +49,7 @@ Route::prefix('/manager')
 ->group(function () {
     Route::get('/chatview/{id}', 'chatView')->name('chatview');
     Route::post('/chatview/{id}', 'sendMessage')->name('sendmessage');
+    Route::put('/chatview/{id}', 'sendBack')->name('sendBack');
 });
 
 

@@ -379,6 +379,11 @@ header {
     pointer-events: none;
 }
 
+#task-list .priority,
+#m-task-list .priority {
+    color: rgb(218, 196, 32);
+}
+
 #task-list .comp-btn,
 #m-task-list .del-btn {
     color: #fff;
@@ -566,7 +571,9 @@ header {
     color: gray;
     font-size: 0.8rem;
     line-height: 2;
+    padding-left: 8px;
 }
+
 .search-btn {
     padding: 8px 10px;
     background-color: rgba(30, 30, 211, 0.644);

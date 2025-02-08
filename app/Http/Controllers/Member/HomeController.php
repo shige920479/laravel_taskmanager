@@ -6,23 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function App\Services\setSendIcon;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $user = Auth::user();
-        $query = Task::where('user_id', '=' , $user->id);
+        $query = Task::where([
+            ['user_id', '=', $user->id],
+            ['del_flag', '!=', 1],
+        ]);
         $sort = $request->sort_order;
         if(is_null($sort)) $tasks = $query->orderBy('updated_at', 'desc')->paginate(10);
         if($sort === 'sort_deadline') $tasks = $query->orderBy('deadline')->paginate(10);
@@ -33,22 +29,6 @@ class HomeController extends Controller
         return view('members.dashboard', compact('user', 'tasks', 'categories', 'sort'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(TaskRequest $request)
     {
         $validated = $request->validated();
@@ -58,12 +38,6 @@ class HomeController extends Controller
         return to_route('members.dashboard')->with('success', '新規タスクを登録しました');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request)
     {
         $user = Auth::user();
@@ -84,12 +58,6 @@ class HomeController extends Controller
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $task = Task::findOrFail($id);
@@ -99,13 +67,6 @@ class HomeController extends Controller
         return view('members.edit', compact('task', 'categories', 'user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateTaskRequest $request, $id)
     {
         $task = Task::findOrFail($id);
@@ -116,14 +77,11 @@ class HomeController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function complete($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->update(['del_flag' => 1,]);
+
+        return to_route('members.dashboard')->with('success', 'タスクを1件完了にしました');
     }
 }

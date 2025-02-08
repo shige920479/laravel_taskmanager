@@ -50,8 +50,18 @@
                 @endforeach
               </ul>
             </div>
-            <form action="{{ route('manager.sendmessage', ['id' => $task->id]) }}" method="post" id="message-box">
+            @if ($task->del_flag === 1) 
+            <form action="{{ route('manager.sendBack', ['id' => $task->id]) }}" method="post" id="message-box">
               @csrf
+              @method('PUT')
+            @else
+             <form action="{{ route('manager.sendmessage', ['id' => $task->id]) }}"  method="post" id="message-box">
+              @csrf
+            {{-- <form action="{{ route('manager.sendBack', ['id' => $task->id]) }}" method="post" id="message-box">
+            @else
+            <form action="{{ route('manager.sendmessage', ['id' => $task->id]) }}" method="post" id="message-box">
+            @endif --}}
+            @endif
               <label>メッセージ入力
                 @error('comment')
                 <span class='flash-msg'>{{ $message }}</span>
@@ -61,9 +71,13 @@
                 @endif
               </label>
               <textarea name="comment" rows="3">{{ old('comment') }}</textarea>
+                @if ($task->del_flag === 1)
+                <button type="submit" class="sendback-btn btn">差戻メッセージ</button>
+                @else
                 <button type="submit" class="sendmsg-btn btn">メッセージ送信</button>
+                @endif
             </form>
           </section>
         </div>
       </div>
-</x-header>
+    </x-header>

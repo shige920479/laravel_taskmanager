@@ -8,10 +8,10 @@
       <ul id="search-flex">
         <li>
           <label for="name">メンバー名</label>
-          <select name="name" id="name">
+          <select name="id" id="name">
             <option value="">全て選択</option>
-            @foreach ($members as $user)
-              <option value="{{ $user->id }}" @if($search['name'] == $user->id) selected @endif>{{ $user->name }}</option>
+            @foreach ($users as $user)
+              <option value="{{ $user->id }}" @if(isset($search['id']) && $search['id'] == $user->id) selected @endif>{{ $user->name }}</option>
             @endforeach
           </select>
         </li>
@@ -20,7 +20,7 @@
           <select name="category" id="category">
             <option value="">全て選択</option>
             @foreach ($categories as $category)
-              <option value="{{ $category }}" @if($search['category'] === $category) selected @endif>{{ $category }}</option>
+              <option value="{{ $category }}" @if(isset($search['category']) && $search['category'] === $category) selected @endif>{{ $category }}</option>
             @endforeach
           </select>
         </li>
@@ -30,6 +30,7 @@
         </li>
         <li><button type="submit" class="search-btn btn">検索</button></li>
       </ul>
+      <input type="hidden" name="sort_order" value="{{ $sort }}">
     </form>
   </section>
   <section id="m-task-list">
@@ -50,6 +51,9 @@
           <option value="sort_deadline" @if ($sort === "sort_deadline") selected @endif>完了目標順</option>
           <option value="sort_priority" @if ($sort === "sort_priority") selected @endif>優先度順</option>
         </select>
+        <input type="hidden" name="id" value="@if (isset($search['id'])) {{ $search['id'] }} @endif">
+        <input type="hidden" name="category" value="@if (isset($search['category'])) {{ $search['category'] }} @endif">
+        <input type="hidden" name="theme" value="@if (isset($search['theme'])) {{ $search['theme'] }} @endif">
       </form>
       <div id="paginate">
         {{ $tasks->withQueryString()->links('vendor.pagination.tailwind2') }}
@@ -65,23 +69,24 @@
       <tbody>
         @foreach ($tasks as $task)
         <tr>
-          <td>{{ $task->user_id }}</td> {{-- 後で差し替え 名前表示へ --}}
-          <td class="priority">{{ str_repeat('☆', $task->priority) }}</td>
+          <td>{{ $task->user->name }}</td>
+          <td class="priority">{{ str_repeat('★', $task->priority) }}</td>
           <td>{{ $task->category }}</td>
           <td class="comp-icon">
             @if ($task->del_flag === 1)
+            <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
               <img src="{{ asset('images/check-pink.png') }}" alt="">
+            </a>
             @elseif ($task->del_flag === 2)
+            <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
               <img src="{{ asset('images/turnback-green.png') }}" alt="">
+            </a>
             @endif
           </td>
           <td class="edit-link"><a href="{{ route('manager.chatview', ['id' => $task->id]) }}">{{ $task->theme }}</a></td>
           <td>{{ $task->content }}</td>
           <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
           <td class="diff-date" data-days="{{ MyLib::diffDate($task->deadline) }}">{{ MyLib::diffDate($task->deadline) }}</td>
-
-          {{-- <td class="diff-date" data-days="{{  }}<?= diffDate($task['deadline']) ?>"><?= diffDate($task['deadline'])."日" ?></td> --}}
-          {{-- <td class="diff-date" data-days="<?= diffDate($task['deadline']) ?>"><?= diffDate($task['deadline'])."日" ?></td> --}}
           <td class="msg-icon">
             @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)
               <a href="{{ route('manager.chatview', ['id' => $task->id]) }}">
@@ -106,7 +111,9 @@
           </td>
           <td>
             @if ($task->del_flag === 1)
-              <form action="" method="post"> {{-- route(****, ['id' => $task->id])  --}}
+              <form action="{{ route('manager.delete', ['id' => $task->id]) }}" method="post">
+                @csrf
+                @method('DELETE')
                 <button type="submit" class="del-btn btn">削除</button>
               </form>
             @endif

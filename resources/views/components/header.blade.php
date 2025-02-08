@@ -12,7 +12,11 @@
       <div id="task-header" class="task-wrapper">
         <h1>タスクManager</h1>
         <div id="header-nav">
-          <div><a href="{{ route('members.dashboard') }}" id="header-link">タスク一覧</a></div>
+          @if (Auth::guard('users')->check())
+            <div><a href="{{ route('members.dashboard') }}" id="header-link">タスク一覧</a></div>
+          @elseif (Auth::guard('manager')->check())
+            <div><a href="{{ route('manager.dashboard') }}" id="header-link">タスク一覧</a></div>
+          @endif
           @if (Auth::guard('users')->check())
               <div><a href="{{ route('members.callender') }}" id="header-link">タスクカレンダー</a></div>
             @elseif (Auth::guard('manager')->check())

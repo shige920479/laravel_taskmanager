@@ -79,11 +79,9 @@
             </select>
             <input type="hidden" name="mode" value="index">
           </form>
-          {{-- <ul id="paginate"> --}}
           <div>
             {{ $tasks->withQueryString()->links('vendor.pagination.tailwind2') }}
           </div>
-          {{-- </ul> --}}
         </div>
         <table>
           <thead>
@@ -94,7 +92,7 @@
           <tbody>
             @foreach ($tasks as $task)
             <tr>
-              <td class="priority">{{ str_repeat('☆', $task->priority) }}</td>
+              <td class="priority">{{ str_repeat('★', $task->priority) }}</td>
               <td>{{ $task->category }}</td>
               <td class="comp-icon">
                 @if ($task->del_flag === 2)
@@ -105,7 +103,7 @@
               <td>{{ $task->content }}</td>
               <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
               <td class="msg-icon">
-                @if ($task->msg_flag !== 0 && $task->mem_to_mg === 1)  {{-- routeは後で修正 --}}
+                @if ($task->msg_flag !== 0 && $task->mem_to_mg === 1)
                   <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                     <img src="{{ asset('images/hikoki.png') }}" alt="">
                   </a>
@@ -116,7 +114,7 @@
                 @endif
               </td>
               <td class="msg-icon">
-                @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)  {{-- routeは後で修正 --}}
+                @if ($task->msg_flag !== 0 && $task->mg_to_mem === 1)
                   <a href="{{ route('members.chatview', ['id' => $task->id]) }}">
                     <img src="{{ asset('images/midoku.png') }}" alt="">
                   </a>
@@ -127,8 +125,9 @@
                 @endif
               </td>
               <td>
-                <form action="※※※※※※※※※※※※" method="post"> {{-- 後で設定 --}}
+                <form action="{{ route('members.complete', ['id' => $task->id]) }}" method="post">
                   @csrf
+                  @method('PUT')
                   <button type="submit" class="comp-btn btn">完了</button>
                 </form>
               </td>
