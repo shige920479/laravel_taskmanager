@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:manager');
+    }
+
     public function index(Request $request)
     {
         $search = $request->all();

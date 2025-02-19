@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained()->onDelete('cascade');
+            $table->foreignId('task_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->text('comment', 255);
             $table->tinyInteger('sender')->default(0);
             $table->timestamps();

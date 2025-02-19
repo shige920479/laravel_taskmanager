@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:users');
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
