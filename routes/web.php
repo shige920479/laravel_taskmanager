@@ -21,6 +21,17 @@ include __DIR__ . '/manager.php';
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/env-check', function () {
+    return env('APP_ENV');
+});
+Route::get('/path-check', function () {
+    return public_path('css/style.css');
+});
+Route::get('/test', function () {
+    return "ルーティングテスト成功";
+});
+
+
 Route::get('/', [LoginController::class, 'index'])->name('index');
 
 Route::prefix('/member')

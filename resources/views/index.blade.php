@@ -6,6 +6,7 @@
     <title>TaskManager</title>
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
   </head>
   <body>
     <section class="login-wrapper">

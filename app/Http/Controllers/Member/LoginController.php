@@ -40,7 +40,6 @@ class LoginController extends Controller
 
         if(Auth::guard('users')->attempt($validated)) {
             $request->session()->regenerate();
-            // return to_route('members.dashboard');
             return redirect()->intended('/members/dashboard');
 
         } else {

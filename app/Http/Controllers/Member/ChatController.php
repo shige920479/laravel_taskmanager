@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,20 @@ class ChatController extends Controller
     public function __construct()
     {
         $this->middleware('auth:users');
+        
+        $this->middleware(function ($request, $next) {
+
+            $id = $request->route()->parameter('id');
+            
+            if(!is_null($id)) {
+                $user_id = Task::findOrFail($id)->user_id;
+                if($user_id !== (int)Auth::id()) {
+                    abort(404);
+                }
+            }
+            return $next($request);
+        });
+
     }
 
     public function chatView($id)
@@ -33,7 +48,9 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request, $id)
     {
-        $validated = $request->validate(['comment' => ['required', 'max:255']]);
+        $validated = $request->validate([
+            'comment' => ['required', 'max:255']
+        ]);
 
         try {
             DB::transaction(function() use($validated, $id) {

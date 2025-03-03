@@ -99,7 +99,7 @@
                   <img src="{{ asset('images/turnback-green.png') }}" alt="">
                 @endif
               </td>
-              <td class="edit-link"><a href="{{ route('members.chatview', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
+              <td class="edit-link"><a href="{{ route('members.edit', ['id' => $task->id])}}">{{ $task->theme }}</a></td>
               <td>{{ $task->content }}</td>
               <td>{{ date('m月d日', strtotime($task->deadline)) }}</td>
               <td class="msg-icon">

@@ -29,7 +29,7 @@ class TaskRequest extends FormRequest
         $today = Carbon::today('Asia/Tokyo'); 
 
         return [
-            'user_id' => ['required',],
+            'user_id' => ['required', 'exists:users,id'],
             'priority' => ['required', 'between:1,3'],
             'category' => ['required', 'max:50'],
             'theme' => ['required', 'max:50'],

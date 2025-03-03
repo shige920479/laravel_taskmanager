@@ -15,6 +15,17 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth:users');
+
+        $this->middleware(function ($request, $next) {
+            $task_id = $request->route()->parameter('id');
+            if(!is_null($task_id)) {
+                $user_id = Task::findOrFail($task_id)->user_id;
+                if($user_id !== (int)Auth::id()) {
+                    abort(404);
+                }        
+            }
+            return $next($request);            
+        });
     }
 
     public function index(Request $request)

@@ -45,12 +45,13 @@ table {
     top: 3px;
     left: -15px;
 }
-#paginate {
+/* #paginate {
     display: flex;
     justify-content: flex-end;
     column-gap: 3px;
 }
-#paginate li {
+
+#paginate .item {
     height: 25px;
     line-height: 25px;
     width: 25px;
@@ -59,7 +60,7 @@ table {
     color: #000053;
     border-radius: 5px / 5px;
 }
-#paginate li.this {
+#paginate .item.active {
     background-color: #777;
     color: #fff;
 }
@@ -67,11 +68,11 @@ table {
     display: block;
     border-radius: 5px / 5px;
 }
-#paginate li a:hover {
+#paginate .item a:hover {
     color: #fff;
     text-decoration: none;
     background-color: #4c4962;
-}
+} */
 
 /*-------------------------------------------
  メンバーログイン画面 MemberLoginView.php

@@ -16,7 +16,7 @@ class Message extends Model
         'sender',
     ];
 
-    public function tasks()
+    public function task()
     {
         return $this->belongsTo(Task::class);
     }
