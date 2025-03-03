@@ -57,7 +57,6 @@
       </form>
       <div id="paginate">
         {{ $tasks->withQueryString()->links('vendor.pagination.tailwind2') }}
-        {{-- {{ $tasks->withQueryString()->links() }} --}}
       </div>
     </div>
     <table>

@@ -17,8 +17,6 @@
           <p style="color:cornflowerblue; text-align:center;">{{ session('success') }}</p>
         @endif
         <h3>Sign Up</h3>
-        {{-- サクセスメッセージの表示 --}}
-
         <form action="{{ route('members.login') }}" method="post">
           @csrf
           <ul>

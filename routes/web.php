@@ -4,6 +4,7 @@ use App\Http\Controllers\Member\ChatController;
 use App\Http\Controllers\Member\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Member\LoginController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 include __DIR__ . '/manager.php';
 
@@ -21,18 +22,9 @@ include __DIR__ . '/manager.php';
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/env-check', function () {
-    return env('APP_ENV');
-});
-Route::get('/path-check', function () {
-    return public_path('css/style.css');
-});
-Route::get('/test', function () {
-    return "ルーティングテスト成功";
-});
 
-
-Route::get('/', [LoginController::class, 'index'])->name('index');
+Route::get('/', [LoginController::class, 'index'])
+->middleware('guest:users')->name('index');
 
 Route::prefix('/member')
 ->controller(LoginController::class)

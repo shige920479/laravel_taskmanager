@@ -26,9 +26,6 @@
             <div class="input">
               <label for="password">パスワード</label>
               <input type="password" name="password" id="password"/>
-              {{-- @error('password')
-                <span class="flash-msg">{{ $message }}</span>
-              @enderror --}}
               @if ($errors->has('password'))
                 <span class="flash-msg">{{ $errors->first('password') }}</span>
               @endif

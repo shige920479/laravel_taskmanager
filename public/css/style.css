@@ -45,34 +45,6 @@ table {
     top: 3px;
     left: -15px;
 }
-/* #paginate {
-    display: flex;
-    justify-content: flex-end;
-    column-gap: 3px;
-}
-
-#paginate .item {
-    height: 25px;
-    line-height: 25px;
-    width: 25px;
-    text-align: center;
-    border: 1px #ccc solid;
-    color: #000053;
-    border-radius: 5px / 5px;
-}
-#paginate .item.active {
-    background-color: #777;
-    color: #fff;
-}
-#paginate li a {
-    display: block;
-    border-radius: 5px / 5px;
-}
-#paginate .item a:hover {
-    color: #fff;
-    text-decoration: none;
-    background-color: #4c4962;
-} */
 
 /*-------------------------------------------
  メンバーログイン画面 MemberLoginView.php
@@ -169,7 +141,6 @@ table {
 -------------------------------------------*/
 header {
     background-color: #4c4962;
-    /* padding: 5px 15px; */
 }
 
 #task-header {
@@ -283,7 +254,6 @@ header {
 #chat-wrapper h1,
 .edit-wrapper h1 {
     display: inline-block;
-    /* background-color: #369549; */
     background-color: #b0cb66;
     color: #fff;
     padding: 5px 40px 5px 10px;

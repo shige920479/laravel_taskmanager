@@ -4,7 +4,6 @@ use App\Http\Controllers\Manager\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\LoginController;
 use App\Http\Controllers\Manager\HomeController;
-use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +21,14 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 // });
 
 //manager認証
+
+Route::get('/manager',[LoginController::class, 'index'])
+->middleware('guest:manager')->name('manager.index');
+
 Route::prefix('/manager')
 ->controller(LoginController::class)
 ->name('manager.')
 ->group(function() {
-    Route::get('/', 'index')->name('index');
     Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
 });
@@ -51,9 +53,3 @@ Route::prefix('/manager')
     Route::post('/chatview/{id}', 'sendMessage')->name('sendmessage');
     Route::put('/chatview/{id}', 'sendBack')->name('sendBack');
 });
-
-
-
-// Route::get('/manager', [LoginController::class, 'index'])->name('manager.index');
-// Route::post('/manager/login', [LoginController::class, 'login'])->name('manager.login');
-// Route::post('/manager/logout', [LoginController::class, 'logout'])->name('manager.logout');

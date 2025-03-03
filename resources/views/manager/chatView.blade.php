@@ -57,10 +57,6 @@
             @else
              <form action="{{ route('manager.sendmessage', ['id' => $task->id]) }}"  method="post" id="message-box">
               @csrf
-            {{-- <form action="{{ route('manager.sendBack', ['id' => $task->id]) }}" method="post" id="message-box">
-            @else
-            <form action="{{ route('manager.sendmessage', ['id' => $task->id]) }}" method="post" id="message-box">
-            @endif --}}
             @endif
               <label>メッセージ入力
                 @error('comment')

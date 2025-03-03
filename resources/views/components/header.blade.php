@@ -11,7 +11,7 @@
   <body>
     <header>
       <div id="task-header" class="task-wrapper">
-        <h1>タスクManager</h1>
+        <h1>TaskManager</h1>
         <div id="header-nav">
           @if (Auth::guard('users')->check())
             <div><a href="{{ route('members.dashboard') }}" id="header-link">タスク一覧</a></div>
