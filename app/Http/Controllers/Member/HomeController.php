@@ -57,7 +57,8 @@ class HomeController extends Controller
     public function show(Request $request)
     {
         $user = Auth::user();
-        $query = Task::where('user_id', $user->id);
+        $query = Task::where('user_id', $user->id)
+                ->where('del_flag', 0);
         $tasks = $query->get();
         $categories = $query->pluck('category')->unique();
 
