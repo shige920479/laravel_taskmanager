@@ -66,7 +66,7 @@ class HomeController extends Controller
         Carbon::setLocale('ja');
         $current_week = $request->week ?? Carbon::today()->format('Y-m-d'); 
         $start_date = Carbon::parse($current_week)->startOfWeek(Carbon::MONDAY);
-        $end_date = Carbon::parse($current_week)->endOfWeek(Carbon::FRIDAY);
+        $end_date = $start_date->copy()->endOfWeek(Carbon::FRIDAY);
         $prev_week = $start_date->copy()->subWeek()->format('Y-m-d');
         $next_week = $end_date->copy()->addWeek()->format('Y-m-d');
 
