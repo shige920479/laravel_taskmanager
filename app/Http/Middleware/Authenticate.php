@@ -20,6 +20,7 @@ class Authenticate extends Middleware
             return match ($requestUser) {
                 'users' => route('index'),
                 'manager' => route('manager.index'),
+                'admin' => route('admin.loginForm'),
                 default => route('index')
             };
         }
@@ -28,9 +29,10 @@ class Authenticate extends Middleware
 
     private function getRequestUser(Request $request)
     {
-        if($request->routeIs('manager.*')) {
-            return 'manager';
-        }
-        return 'users';
+        return match ($request->routeIs()) {
+            'manager.*' => 'manager',
+            'admin.*' => 'admin',
+            default => 'users'
+        };
     }
 }

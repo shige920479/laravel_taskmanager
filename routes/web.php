@@ -4,9 +4,9 @@ use App\Http\Controllers\Member\ChatController;
 use App\Http\Controllers\Member\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Member\LoginController;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
-include __DIR__ . '/manager.php';
+// include __DIR__ . '/manager.php';
+// include __DIR__ . '/admin.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +33,10 @@ Route::prefix('/member')
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('accountstore');
     Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
 });
+
+Route::post('/member/logout', [LoginController::class, 'logout'])->middleware('auth:users')
+->name('members.logout');
 
 Route::prefix('/members')
 ->middleware('auth:users')

@@ -23,8 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ManagerSeeder::class,
             UserSeeder::class,
+            AdminSeeder::class,
             TaskSeeder::class,
-            MessageSeeder::class
+            MessageSeeder::class,
+            DeadlineUpdate::class,
         ]);
     }
 }
