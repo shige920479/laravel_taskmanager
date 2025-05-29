@@ -875,3 +875,40 @@ td:has(.category) {
 .box.comp-color {
     background-color: #565657;
 }
+/*
+admin
+*/
+#migrate-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+#migrate-wrapper h1,
+#migrate-wrapper h3 {
+    text-align: center;
+    margin: 50px 0 20px 0;
+}
+
+.migrate-msg {
+    background-color: rgb(105 175 227);
+    color: #fff;
+    margin: 10px 200px 5px 200px;
+    padding: 3px;
+    border-radius: 5px;
+    text-align: center;
+}
+.migrate-btn {
+    display: block;
+    background-color: #6366f1;
+    color: #fff;
+    font-weight: bold;
+    width: 300px;
+    height: 80px;
+    margin: 30px auto;
+    border-radius: 5px;
+}
+.migrate-btn.logout {
+    background-color: #ef9a11;
+}
+.migrate-btn:hover {
+    opacity: 0.7;
+}
